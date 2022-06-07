@@ -1,2 +1,2 @@
 # code-samples
-Selected scripts from my game written in GML
+Selected scripts from small projects written in various languages or my game written in GML
