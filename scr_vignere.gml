@@ -43,7 +43,7 @@ if(argument_count == 3 && !is_undefined(argument[2]))
 	
 /* Execute Script - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-var vignerenx_sequence	   = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+var vignerenx_sequence	   = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
 var return_string		   = "";
 
 if(!is_undefined(input_text) && string_length(input_text) > 0 && !is_undefined(input_key) && string_length(input_key) > 0 && !is_undefined(encrypt_boolean)){
@@ -55,11 +55,14 @@ if(!is_undefined(input_text) && string_length(input_text) > 0 && !is_undefined(i
 	if(encrypt_boolean){
 		for(var i = 0; i < len; i++){
 			var a_char	   = string_char_at(input_text, i + 1);
-			var a_key_char = string_char_at(input_key, (i mod key_len) + 1);
+			var a_key_char = string_char_at(input_key, (i % key_len) + 1);	
 			
 			var initial_char_pos = string_pos(a_char, vignerenx_sequence);
 			var key_char_pos	 = string_pos(a_key_char, vignerenx_sequence);
-			var encrypted_char	 = string_char_at(vignerenx_sequence, ((initial_char_pos + key_char_pos) % 52));
+			var encrypted_pos	 = ((initial_char_pos + key_char_pos) % 62);
+			if(encrypted_pos == 0)
+				encrypted_pos = 62;
+			var encrypted_char	 = string_char_at(vignerenx_sequence, encrypted_pos);
 			return_string += encrypted_char;
 		}
 	}
@@ -67,13 +70,15 @@ if(!is_undefined(input_text) && string_length(input_text) > 0 && !is_undefined(i
 	else{
 		for(var i = 0; i < len; i++){
 			var a_char	   = string_char_at(input_text, i + 1);
-			var a_key_char = string_char_at(input_key, (i mod key_len) + 1);
+			var a_key_char = string_char_at(input_key, (i % key_len) + 1);
 			
 			var initial_char_pos = string_pos(a_char, vignerenx_sequence);
 			var key_char_pos	 = string_pos(a_key_char, vignerenx_sequence);
 			var mod_shift		 = seq_len - key_char_pos;
-			
-			var encrypted_char   = string_char_at(vignerenx_sequence, ((initial_char_pos + mod_shift) % 52));
+			var encrypted_pos	 = ((initial_char_pos + mod_shift) % 62);
+			if(encrypted_pos == 0)
+				encrypted_pos = 62;
+			var encrypted_char   = string_char_at(vignerenx_sequence, encrypted_pos);
 			return_string += encrypted_char;
 		}
 	}
